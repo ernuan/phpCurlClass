@@ -60,13 +60,13 @@ class HttpCurl
     public $multiRequest = false;
 
     /**
-     * 请求信息
+     * 请求结果信息
      * @var array
      */
     protected $resInfo = [];
 
     /**
-     * 响应结果
+     * 响应结果数据
      * @var mixed
      */
     protected $response;
@@ -140,7 +140,7 @@ class HttpCurl
      */
     public function get(): HttpCurl
     {
-        return $this->setMethod('get');
+        return $this->setMethod('get')->request();
     }
 
     /**
@@ -149,7 +149,7 @@ class HttpCurl
      */
     public function post(): HttpCurl
     {
-        return $this->setMethod('post');
+        return $this->setMethod('post')->request();
     }
 
     /**
@@ -158,7 +158,7 @@ class HttpCurl
      */
     public function put(): HttpCurl
     {
-        return $this->setMethod('put');
+        return $this->setMethod('put')->request();
     }
 
     /**
@@ -167,7 +167,7 @@ class HttpCurl
      */
     public function delete(): HttpCurl
     {
-        return $this->setMethod('delete');
+        return $this->setMethod('delete')->request();
     }
 
 
@@ -227,7 +227,7 @@ class HttpCurl
      */
     public function response()
     {
-        $this->request();
+        if (!$this->response) $this->request();
         return $this->response;
     }
 
@@ -244,18 +244,19 @@ class HttpCurl
 
     /**
      * 获取请求头信息
-     * @param int $arr 是否输出数组格式，默认字符串
-     * @param int $nobody 是否包含body信息 默认不包含
+     * @param bool $isArr 是否输出数组格式，默认字符串
+     * @param bool $nobody 是否包含body信息 默认不包含
      * @return mixed
      */
-    public function getHeaders($arr = 0, $nobody = 1)
+    public function getHeaders($isArr = false, $nobody = true)
     {
         if ($nobody) $this->setOptions('nobody', 1);
-        $this->setOptions('header', 1);
-        if ($arr) {
-            return $this->headerToArray($this->response());
+        $this->setOptions('header', true);
+        $this->request();
+        if ($isArr) {
+            return $this->headerToArray($this->response);
         }
-        return $this->response();
+        return $this->response;
     }
 
     /**
