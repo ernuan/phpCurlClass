@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Class Http
+ * Class HttpCurl
  * @author deepsea <top@52e.cc>
- * @link https://www.records.ee/21.html
+ * @link https://github.com/deepsearun/phpCurlClass
  */
 class HttpCurl
 {
