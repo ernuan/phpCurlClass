@@ -69,16 +69,13 @@
     
     // 获取连接耗时
     HttpCurl::url('https://baidu.com/')->getResInfo('connect_time');
-    
-    ....
 
-## 获取301/302重定向 ##
+## 获取301/302重定向地址 ##
 该方法是获取 `header` 中的 `location`值内容。
 
-    // 获取重定向地址
     HttpCurl::url('https://api.btstu.cn/sjbz/api.php')->post()->getRedirectUrl();
 
-## 更多... ##
+## 请求配置 ##
 
     // 设置 HTTP 请求头
     HttpCurl::url('https://baidu.com/')->httpHeader([
@@ -96,3 +93,8 @@
     
     // 设置超时时间 单位 ms 默认3000ms
     HttpCurl::url('https://baidu.com/')->timeout(5000)->get()->response();
+    
+    // 连贯操作
+    HttpCurl::url('https://baidu.com/')->httpHeader()->referer()->cookie()->ua()->timeout(5000)->get()->response();
+
+更多方式请翻看源代码查看
